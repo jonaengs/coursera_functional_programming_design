@@ -71,5 +71,38 @@ class BloxorzSuite {
     }
 
 
+  /*
+  MY TESTS BELOW
+   */
+
+  @Test def `find char (goal) level 1 `: Unit =
+    new Level1 {
+      assertEquals(Pos(4, 7), goal) // defined in StingParserTerrain
+    }
+
+
+  @Test def `isStanding`: Unit =
+    new Level1 {
+      assertEquals(Block(startPos, startPos).isStanding, true)
+      assertEquals(Block(Pos(1, 1), Pos(1, 2)).isStanding, false)
+    }
+
+  @Test def `isLegal`: Unit =
+    new Level1 {
+      assertEquals(Block(startPos, startPos).isLegal, true)
+      assertEquals(Block(Pos(5, 9), Pos(5, 9)).isLegal, false)
+    }
+
+  @Test def `legalNeighbors`: Unit =
+    new Level1 {
+      assertEquals(List((Block(Pos(0, 1), Pos(0, 2)), Right), (Block(Pos(1, 0), Pos(2, 0)), Down)),
+        Block(Pos(0, 0), Pos(0, 0)).legalNeighbors)
+    }
+
+  @Test def `test startBlock`: Unit =
+    new Level1 {
+      assertEquals(Block(Pos(1, 1), Pos(1, 1)), startBlock)
+    }
+
   @Rule def individualTestTimeout = new org.junit.rules.Timeout(10 * 1000)
 }
