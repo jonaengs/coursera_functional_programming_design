@@ -24,6 +24,7 @@ class BloxorzSuite {
     }
   }
 
+
   trait Level1 extends SolutionChecker {
       /* terrain for level 1*/
 
@@ -104,5 +105,16 @@ class BloxorzSuite {
       assertEquals(Block(Pos(1, 1), Pos(1, 1)), startBlock)
     }
 
+  @Test def `test done`: Unit =
+    new Level1 {
+      val b1 = Block(Pos(4, 7), Pos(4, 7)) // standing on goal
+      val b2 = Block(Pos(4, 7), Pos(4, 8)) // laying on goal
+      assertEquals(true, done(b1))
+      assertEquals(false, done(b2))
+    }
+
+
+
   @Rule def individualTestTimeout = new org.junit.rules.Timeout(10 * 1000)
 }
+
