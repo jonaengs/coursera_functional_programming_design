@@ -35,7 +35,7 @@ trait Solver extends GameDef {
    * make sure that we don't explore circular paths.
    */
   def newNeighborsOnly(neighbors: LazyList[(Block, List[Move])], explored: Set[Block]): LazyList[(Block, List[Move])] =
-    neighbors filterNot {case (block, moves) => explored contains block}
+    neighbors filterNot {case (block, _) => explored contains block}
   // (neighbors flatMap {case (block, moves) => neighborsWithHistory(block, moves)})
 
   /**
@@ -65,15 +65,15 @@ trait Solver extends GameDef {
            explored: Set[Block]): LazyList[(Block, List[Move])] = {
     val neighbors = initial flatMap {case (block, history) => neighborsWithHistory(block, history)}
     val newNeighbors = newNeighborsOnly(neighbors, explored)
-    val exploredExpanded = explored ++ (neighbors map (_._1))
-    newNeighbors #::: from(neighbors, exploredExpanded)
+    val exploredExpanded = explored ++ (newNeighbors map (_._1))
+    newNeighbors #::: from(newNeighbors, exploredExpanded)
   }
 
   /**
    * The lazy list of all paths that begin at the starting block.
    */
   lazy val pathsFromStart: LazyList[(Block, List[Move])] =
-    from(LazyList((startBlock, List())), Set())
+    from(LazyList((startBlock, List())), Set(startBlock))
 
   /**
    * Returns a lazy list of all possible pairs of the goal block along
